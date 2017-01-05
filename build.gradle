@@ -1,0 +1,82 @@
+import groovy.sql.Sql
+
+buildscript {
+  repositories {
+    maven { url 'http://download.java.net/maven/2' }
+    maven { url 'http://repo.spring.io/plugins-release' }
+    maven { url 'http://repo.spring.io/libs-snapshot' }
+    maven { url 'http://repo1.maven.org/maven2' }
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.1'
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'jetty'
+configurations {
+    providedCompile
+}
+
+group='simple-plat'
+
+// 覆盖compileJava 任务（在 Java 插件中定义）默认的编译选项
+compileJava {
+  options.debug = version.endsWith('')
+}
+
+jar {
+  baseName = 'simple-plat'
+  version =  '1.0'
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'http://repo.spring.io/milestone/'}
+    maven { url 'http://repo.spring.io/libs-snapshot' }
+}
+
+// 编译器选项
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+    options.bootClasspath = "$System.env.JAVA_HOME/jre/lib/rt.jar;$System.env.JAVA_HOME/jre/lib/jce.jar"
+}
+
+task copyJars(type: Copy) {
+  from configurations.runtime
+  into 'D:/workspace/shuzunPlatform/src/main/webapp/WEB-INF/lib' // 目标位置
+}
+
+task refreshPj << {
+  delete {
+    delete 'D:/devtools/apache-tomcat-7.0.54/webapps/travelCenter/WEB-INF/classes'
+    delete 'D:/devtools/apache-tomcat-7.0.54/webapps/travelCenter/WEB-INF/jsp'
+  }
+  copy {
+    from 'src/main/webapp'
+    into 'D:/devtools/apache-tomcat-7.0.54/webapps/travelCenter'
+  }
+  copy {
+    from 'bin'
+    into 'D:/devtools/apache-tomcat-7.0.54/webapps/travelCenter/WEB-INF/classes'
+  }
+}
+
+task d << {
+  delete {
+    // delete 'C:/log/spring.log'
+  }
+}
+
+dependencies {
+  compile 'org.springframework:spring-core:3.2.4.RELEASE'
+  compile 'org.springframework:spring-web:3.2.4.RELEASE'
+  compile 'org.springframework:spring-webmvc:3.2.4.RELEASE'
+  
+}
