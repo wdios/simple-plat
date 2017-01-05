@@ -79,4 +79,8 @@ dependencies {
   compile 'org.springframework:spring-web:3.2.4.RELEASE'
   compile 'org.springframework:spring-webmvc:3.2.4.RELEASE'
   
+  // junit 测试相关包 -->
+  testCompile 'junit:junit:4.11'
+  testCompile 'org.easymock:easymock:3.4'
+  testCompile 'org.springframework:spring-test:3.2.4.RELEASE'
 }
