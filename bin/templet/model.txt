@@ -1,9 +1,0 @@
-ouyeel_role_cost_step 欧冶角色阶梯计费
-id long 系统序号
-role_id int 角色序号
-cost_num int 次数
-cost_price double 价格
-user_created String 录入用户
-user_updated String 最后更新用户
-stamp_created String 录入时间
-stamp_updated String 最后更新时间
