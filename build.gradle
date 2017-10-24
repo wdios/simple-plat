@@ -6,11 +6,16 @@ buildscript {
     maven { url 'http://repo.spring.io/plugins-release' }
     maven { url 'http://repo.spring.io/libs-snapshot' }
     maven { url 'http://repo1.maven.org/maven2' }
+    maven { url 'http://repository.atlassian.com/maven2' }
+    maven { url 'http://maven.jahia.org/maven2/' }
     mavenCentral()
+    jcenter()
   }
 
   dependencies {
-    classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.1'
+    // classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.1'
+    // classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.0.1.RELEASE'
+    classpath 'org.akhikhl.gretty:gretty:+'
   }
 }
 
@@ -19,10 +24,26 @@ apply plugin: 'war'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'jetty'
+// apply plugin: 'jetty'
+apply plugin: 'org.akhikhl.gretty'
 configurations {
     providedCompile
 }
+
+//jettyRun {
+    //reload = "automatic"
+    //scanIntervalSeconds = 1
+    //httpPort = 1234
+    //stopPort = 4321
+    //stopKey = 'stop'
+//}
+// apply plugin: 'spring-boot'
+
+//these create the 'provided' scope, mainly for the servlet dependency
+//apply plugin: 'propdeps'
+//apply plugin: 'propdeps-maven'
+//apply plugin: 'propdeps-idea'
+//apply plugin: 'propdeps-eclipse'
 
 group='simple-plat'
 
@@ -75,12 +96,84 @@ task d << {
 }
 
 dependencies {
-  compile 'org.springframework:spring-core:3.2.4.RELEASE'
-  compile 'org.springframework:spring-web:3.2.4.RELEASE'
-  compile 'org.springframework:spring-webmvc:3.2.4.RELEASE'
-  
-  // junit 测试相关包 -->
-  testCompile 'junit:junit:4.11'
+  compile 'org.springframework:spring-core:4.3.8.RELEASE'
+  compile 'org.springframework:spring-web:4.3.8.RELEASE'
+  compile 'org.springframework:spring-webmvc:4.3.8.RELEASE'
+  compile 'org.springframework:spring-jdbc:4.3.8.RELEASE'
+  compile 'org.springframework:spring-tx:4.3.8.RELEASE'
+  compile 'org.springframework:spring-context:4.3.8.RELEASE'
+  compile 'org.springframework:spring-context-support:4.3.8.RELEASE'
+
+  // 缓存
+  compile 'net.sf.ehcache:ehcache:2.10.3'
+
+  // mysql驱动包
+  compile 'mysql:mysql-connector-java:5.1.29'
+
+  // shiro
+  compile 'org.apache.shiro:shiro-core:1.3.2'
+  compile 'org.apache.shiro:shiro-ehcache:1.3.2'
+  compile 'org.apache.shiro:shiro-web:1.3.2'
+  compile 'org.apache.shiro:shiro-quartz:1.3.2'
+  compile 'org.apache.shiro:shiro-spring:1.3.2'
+
+  // 服务端校验
+
+  // jsp 页面工具
+  compile 'jstl:jstl:1.2'
+  compile 'cglib:cglib:3.1'
+  compile 'org.apache.taglibs:taglibs-standard-impl:1.2.1'
+
+  // 工具包
+  compile 'com.google.guava:guava:15.0'
+  compile 'commons-logging:commons-logging:1.2'
+  compile 'org.apache.commons:commons-lang3:3.5'
+  compile 'commons-codec:commons-codec:1.10'
+  compile 'commons-fileupload:commons-fileupload:1.3.1'
+  compile 'commons-io:commons-io:2.4'
+
+  // json数据
+  compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+  compile 'com.alibaba:fastjson:1.2.31'
+  compile 'com.fasterxml.jackson.core:jackson-databind:2.7.4'
+  compile 'com.fasterxml.jackson.core:jackson-core:2.7.4'
+  compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.4'
+
+  // 连接池
+  compile 'commons-dbcp:commons-dbcp:1.4'
+  // 校验码图片
+  compile 'com.octo.captcha:jcaptcha:1.0'
+  // 日期处理
+  compile 'com.darwinsys:hirondelle-date4j:1.5.0'
+  // pdf 支持
+  compile 'com.itextpdf:itextpdf:5.5.8'
+  compile 'com.itextpdf:itext-asian:5.2.0'
+  // 邮件
+  compile 'javax.mail:mail:1.4.1'
+  // excel 处理
+  compile 'org.apache.poi:poi-ooxml:3.15'
+
+  // 日志文件管理包
+  compile 'log4j:log4j:1.2.9'
+  compile 'org.slf4j:slf4j-log4j12:1.6.6'
+
+  // 模板替换自动生成代码
+  providedCompile 'org.freemarker:freemarker:2.3.20'
+  providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+  providedCompile 'javax.servlet.jsp:jsp-api:2.2.1-b03'
+  providedCompile 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1'
+
+  // 测试相关包 -->
+  testCompile 'junit:junit:4.12'
   testCompile 'org.easymock:easymock:3.4'
-  testCompile 'org.springframework:spring-test:3.2.4.RELEASE'
+  testCompile 'org.springframework:spring-test:4.3.8.RELEASE'
+
+  // 验证码
+  compile fileTree(dir:'libs/jcaptcha',include:['*.jar'])
+}
+
+gretty {
+    contextPath ="/${project.name}"
+    servletContainer = 'jetty8'
+    scanInterval = 0
 }

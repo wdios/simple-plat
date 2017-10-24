@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- Realm实现 -->
+    <!-- 用切面缓存代理了，此处就不缓存了 -->
+    <bean id="userRealm" class="org.apache.shiro.realm.UserRealm">
+        <property name="authenticationCachingEnabled" value="false"/>
+        <property name="authorizationCachingEnabled" value="false"/>
+    </bean>
+
+    <!---cookie-->
+    <!-- uid(session id) 生成策略 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+    <!-- 会话Cookie模板 -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="uid"/>
+        <!-- 如果是 ip/localhost，此处domain为空。（chrome不能设置） -->
+        <property name="domain" value=""/>
+        <property name="path" value=""/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/>
+    </bean>
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe"/>
+        <property name="domain" value=""/>
+        <property name="path" value=""/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="864000"/><!-- 10天 -->
+    </bean>
+    
+    <!--dao -->
+    <!-- 会话保持的DAO -->
+    <bean id="onlineSessionDAO" class="org.apache.shiro.session.mgt.eis.OnlineSessionDAO">
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+    </bean>
+
+    <bean id="onlineSessionFactory" class="org.apache.shiro.session.mgt.OnlineSessionFactory"/>
+
+    <!-- rememberMe管理器 -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <!-- rememberMe cookie 加密的密钥 建议每个项目都不一样 默认 AES 算法 密钥长度（128 256 512 位）-->
+        <!-- 密钥生成 java 代码（直接拷贝到 main 运行即可） KeyGenerator keygen = KeyGenerator.getInstance("AES");SecretKey deskey = keygen.generateKey();System.out.println(Base64.encodeToString(deskey.getEncoded())); -->
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('Kaf6OY0sA/4dqMZd4lL1dw==')}"/>
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
+    
+    <bean id="shiroCacheManager" class="org.apache.shiro.cache.spring.SpringCacheManagerWrapper">
+        <property name="cacheManager" ref="springCacheManager"/>
+    </bean>
+
+    <!-- 会话验证调度  -->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.scheduler.SpringSessionValidationScheduler">
+        <property name="sessionValidationInterval" value="1800000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <!-- see spring-config-task.xml-->
+        <property name="scheduler" ref="scheduler"/>
+    </bean>
+    <!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.OnlineWebSessionManager">
+        <property name="globalSessionTimeout" value="1800000"/><!-- session 有效时间为半小时 （毫秒单位）-->
+        <property name="sessionFactory" ref="onlineSessionFactory"/>
+        <property name="sessionDAO" ref="onlineSessionDAO"/>
+        <property name="deleteInvalidSessions" value="false"/>
+
+        <property name="sessionValidationInterval" value="1800000"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+
+        <property name="cacheManager" ref="shiroCacheManager"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+    </bean>
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="userRealm"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+    </bean>
+
+    <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
+    </bean>
+
+    <!-- filter -->
+    <!--替换默认的form 验证过滤器-->
+    <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.CustomFormAuthenticationFilter">
+        <property name="defaultSuccessUrl" value="/"/>
+        <property name="adminDefaultSuccessUrl" value="/admin/index"/>
+        <!--表单上的用户名/密码 下次自动登录的参数名-->
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+        <property name="rememberMeParam" value="rememberMe"/>
+    </bean>
+
+    <!-- 退出登录过滤器 -->
+    <bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="/login?logout=1"/>
+    </bean>
+    <!--提取系统用户（User） 验证用户是否合法的过滤器（如是否删除了 是否锁定了） -->
+    <bean id="sysUserFilter" class="org.apache.shiro.web.filter.user.SysUserFilter">
+        <property name="userBlockedUrl" value="/login?blocked=1"/>
+        <property name="userNotfoundUrl" value="/login?notfound=1"/>
+        <property name="userUnknownErrorUrl" value="/login?unknown=1"/>
+    </bean>
+    <!-- 验证会话是否是强制退出等的filter -->
+    <bean id="onlineSessionFilter" class="org.apache.shiro.web.filter.online.OnlineSessionFilter">
+        <property name="forceLogoutUrl" value="/login?forcelogout=1"/>
+        <property name="onlineSessionDAO" ref="onlineSessionDAO"/>
+    </bean>
+
+    <bean id="jCaptchaValidateFilter" class="org.apache.shiro.web.filter.jcaptcha.JCaptchaValidateFilter">
+        <property name="jcaptchaEbabled" value="true"/>
+        <property name="jcaptchaParam" value="jcaptchaCode"/>
+        <property name="jcapatchaErrorUrl" value="/admin/login?jcaptchaError=1"/>
+    </bean>
+
+    <!-- 同步当前会话数据到数据库 -->
+    <bean id="syncOnlineSessionFilter" class="org.apache.shiro.web.filter.sync.SyncOnlineSessionFilter">
+        <property name="onlineSessionDAO" ref="onlineSessionDAO"/>
+    </bean>
+
+    <!-- Shiro的Web过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <!-- override these for application-specific URLs if you like:-->
+        <property name="loginUrl" value="/admin/login"/>
+        <property name="unauthorizedUrl" value="/unauthorized"/>
+        <!-- The 'filters' property is not necessary since any declared javax.servlet.Filter bean  -->
+        <!-- defined will be automatically acquired and available via its beanName in chain        -->
+        <!-- definitions, but you can perform instance overrides or name aliases here if you like: -->
+        <property name="filters">
+            <util:map>
+                <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="logout" value-ref="logoutFilter"/>
+                <entry key="sysUser" value-ref="sysUserFilter"/>
+                <entry key="onlineSession" value-ref="onlineSessionFilter"/>
+                <entry key="syncOnlineSession" value-ref="syncOnlineSessionFilter"/>
+                <entry key="jCaptchaValidate" value-ref="jCaptchaValidateFilter"/>
+            </util:map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                / = anon
+                /page/** = anon
+                /resources/** = anon
+                /jcaptcha* = anon
+                /logger = anon
+                /logout = logout
+                /admin/login = jCaptchaValidate, authc
+                /admin/** = sysUser,onlineSession,user,syncOnlineSession,perms,roles
+            </value>
+        </property>
+    </bean>
+    <!-- 过滤器会根据顺序执行，在进入realm之前 -->
+
+    <!-- aop and other-->
+    <!-- For simplest integration, so that all SecurityUtils.* methods work in all cases, -->
+    <!-- make the securityManager bean a static singleton.  DO NOT do this in web         -->
+    <!-- applications - see the 'Web Applications' section below instead.                 -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
+    </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+</beans>

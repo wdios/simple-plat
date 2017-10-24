@@ -1,0 +1,13 @@
+.cus_container {
+    display:table;
+    height:100%;
+}
+.cus_row {
+    display: table-cell;
+    vertical-align: middle;
+}
+.cus_center-vertical {
+    position: relative;
+    top: 50vh;
+    transform: translateY(-68%);
+}
