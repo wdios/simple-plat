@@ -1,14 +1,13 @@
-<!--A Design by W3layouts
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-<!DOCTYPE HTML>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="path" value="${pageContext.request.contextPath}" />
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>welcome</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="icon" href="${path}/resources/img/favicon.ico" mce_href="${path}/resources/img/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="${path}/resources/img/favicon.ico" mce_href="${path}/resources/img/favicon.ico" type="image/x-icon">
 <link href='http://fonts.googleapis.com/css?family=Metal+Mania' rel='stylesheet' type='text/css'>
 <style type="text/css">
 body{

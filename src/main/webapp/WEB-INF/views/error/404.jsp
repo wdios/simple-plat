@@ -6,6 +6,8 @@
 <head>
 <title>Free error 404 for Website Template | Home :: w3layouts</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="icon" href="${path}/resources/img/favicon.ico" mce_href="${path}/resources/img/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="${path}/resources/img/favicon.ico" mce_href="${path}/resources/img/favicon.ico" type="image/x-icon">
 <link href='http://fonts.googleapis.com/css?family=Courgette' rel='stylesheet' type='text/css'>
 <style type="text/css">
 body{

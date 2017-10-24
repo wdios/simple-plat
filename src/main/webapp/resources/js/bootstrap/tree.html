@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Bootstrap 模板</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap -->
+    <link href="bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/tree.css" rel="stylesheet">
+    <link href="icheck/blue.css" rel="stylesheet">
+
+    <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+    <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+    <!--[if lt IE 9]>
+       <script src="js/html5shiv.js"></script>
+       <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    <div class="tree well">
+      <ul>
+        <li><div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-folder-open"></i> 廊坊师范学院</span>
+          <ul>
+            <li><div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-folder-open"></i> 教育学院</span>
+              <ul>
+                <li><div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-leaf"></i> 学前教育</span> </li>
+              </ul>
+            </li>
+            <li><div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-folder-open"></i> 物电学院</span>
+              <ul>
+                <li><div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-leaf"></i> 电气工程技术</span> </li>
+                <li><div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-folder-open"></i> 电子信息科学技术</span>
+                  <ul>
+                    <li><div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-folder-open"></i> 电子一班</span>
+                      <ul>
+                        <li><div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-leaf"></i> 宋笑</span> </li>
+                        <li><div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-leaf"></i> 二盟</span> </li>
+                      </ul>
+                    </li>
+                    <li><div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-leaf"></i> 电子二班</span> </li>
+                  </ul>
+                </li>
+                <li><div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-leaf"></i> 物理学</span> </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+ 
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script src="js/jquery.js"></script>
+    <!-- 包括所有已编译的插件 -->
+    <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="icheck/icheck.js"></script>
+    
+  </body>
+
+<script type="text/javascript">
+// 为节点添加展开，关闭的操作
+$(function() {
+  $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+  $('.tree li.parent_li > span').on('click', function (e) {
+    var children = $(this).parent('li.parent_li').find(' > ul > li');
+    if (children.is(":visible")) {
+      children.hide('fast');
+      $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('glyphicon glyphicon-folder-open');
+    } else {
+      children.show('fast');
+      $(this).attr('title', 'Collapse this branch').find(' > i').addClass('glyphicon glyphicon-folder-open').removeClass('icon-plus-sign');
+    }
+    e.stopPropagation();
+  });
+  
+  function setParent(pObj) {
+    if (pObj[0].tagName == 'UL') {
+      pObj.siblings(":eq(1)").addClass("hover");
+      setParent(pObj.parent().parent());
+    }
+  }
+    
+  $('.tree input').iCheck({
+    checkboxClass: 'icheckbox_square-blue',
+    radioClass: 'iradio_square-blue',
+    increaseArea: '20%' // optional
+  });
+  
+  $('.tree input').on('ifChecked', function(event) {
+    // alert(event.type + ' callback');
+    $(this).parent().parent().find("input").iCheck('check');
+    setParent($(this).parent().parent().parent());
+  });
+  
+  $('.tree input').on('ifUnchecked', function(event) {
+    $(this).parent().parent().find("input").iCheck('uncheck');
+  });
+  
+  var treeDict = { "key1": "val1", "key2": "val2" };
+  $.each(treeDict, function(index, key, val) {
+    alert(index);
+  });
+  
+});
+</script>
+
+</html>

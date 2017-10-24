@@ -5,7 +5,8 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <link rel="shortcut icon" type="image/ico" href="${path}/resources/img/favicon.ico" />
+    <link rel="icon" href="${path}/resources/img/favicon.ico" mce_href="${path}/resources/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="${path}/resources/img/favicon.ico" mce_href="${path}/resources/img/favicon.ico" type="image/x-icon">
     <title>演示系统</title>
     
     <link href="${path}/resources/css/checkbox.css" type="text/css" media="screen" rel="stylesheet" />
