@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wis.data.SysMenuTree;
 import com.wis.model.SysMenu;
 import com.wis.model.page.Pager;
 import com.wis.model.page.PagerJsonResponse;
@@ -49,8 +50,12 @@ public class SysMenuController {
 		return list;
 	}
 	
-	
-	
-	
+	@RequestMapping(value = "/alltree")
+    @ResponseBody
+    public List<SysMenuTree> getAllSysMenuTree() {
+        String sqlStr = "select * from sys_menu ORDER BY parentid,weight desc";
+        List<SysMenu> list = jdbcTemplate.query(sqlStr, new BeanPropertyRowMapper<SysMenu>(SysMenu.class));
+        return SysMenuTree.formatTree(list);
+    }
 	
 }

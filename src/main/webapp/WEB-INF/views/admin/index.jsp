@@ -1,216 +1,319 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <link rel="shortcut icon" href="${path}/resources/img/favicon.ico">
-    <link rel="Bookmark" href="${path}/resources/img/favicon.ico">
-    <title>管理系统</title>
-    <link rel="stylesheet" type="text/css" href="${path}/resources/js/easyui1.5.2/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="${path}/resources/js/easyui1.5.2/themes/icon.css">
-    <link rel="stylesheet" type="text/css" href="${path}/resources/js/easyui1.5.2/themes/default.css">
-    <script type="text/javascript" src="${path}/resources/js/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="${path}/resources/js/easyui1.5.2/jquery.easyui.min.js"></script>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>首页 - 管理系统</title>
 
-<script type="text/javascript">
-var _menus = ${menus};
-var selectedPanelname;
-function showcontent(url) {
-    var content = '<iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:100%;"></iframe>';
-    $('#content').html(content);
-}
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-$(function() {
-    // 导航菜单绑定初始化
-    $("#wnav").accordion({
-        animate : false
-    });
-    
-    addNav(_menus);
-    
-    // clearNav();
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="${path}/resources/js/ace-master/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="${path}/resources/js/ace-master/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
 
-    // 绑定tabs的右键菜单
-    $("#tabs").tabs({
-        onContextMenu:function(e,title) {
-            e.preventDefault();
-            $('#tabsMenu').menu('show', {
-                left: e.pageX,
-                top: e.pageY
-            }).data("tabTitle", title);
-        }
-    });
+    <!-- page specific plugin styles -->
 
-    // 实例化menu的onClick事件
-    $("#tabsMenu").menu({
-        onClick:function(item) {
-            closeTab(this,item.name);
-        }
-    });
+    <!-- text fonts -->
+    <link rel="stylesheet" href="${path}/resources/js/ace-master/assets/css/fonts.googleapis.com.css" />
 
-    openTab('用户管理', 'sysUser/view');
-});
+    <!-- ace styles -->
+    <link rel="stylesheet" href="${path}/resources/js/ace-master/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
 
-// 在右边center区域打开菜单，新增tab
-function openTab(text, url) {
-    if ($("#tabs").tabs('exists', text)) {
-        $('#tabs').tabs('select', text);
-    } else {
-        var content = '<iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:100%;"></iframe>';
-        $('#tabs').tabs('add', {
-            title:text,
-            closable:true,
-            content:content
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="${path}/resources/js/ace-master/assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="${path}/resources/js/ace-master/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="${path}/resources/js/ace-master/assets/css/ace-rtl.min.css" />
+
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="${path}/resources/js/ace-master/assets/css/ace-ie.min.css" />
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="${path}/resources/js/ace-master/assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+    <script src="${path}/resources/js/ace-master/assets/js/html5shiv.min.js"></script>
+    <script src="${path}/resources/js/ace-master/assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body class="no-skin">
+
+<jsp:include page="/WEB-INF/views/admin/common/nav.jsp"></jsp:include>
+
+<div class="main-container ace-save-state" id="main-container">
+      <script type="text/javascript">
+        try{ace.settings.loadState('main-container')}catch(e){}
+      </script>
+
+<jsp:include page="/WEB-INF/views/admin/common/leftmenu.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/admin/main.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/admin/common/footer.jsp"></jsp:include>
+
+      <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+      </a>
+    </div><!-- /.main-container -->
+
+    <!-- basic scripts -->
+
+    <!--[if !IE]> -->
+    <script src="${path}/resources/js/ace-master/assets/js/jquery-2.1.4.min.js"></script>
+
+    <!-- <![endif]-->
+
+    <!--[if IE]>
+<script src="${path}/resources/js/ace-master/assets/js/jquery-1.11.3.min.js"></script>
+<![endif]-->
+    <script type="text/javascript">
+      if('ontouchstart' in document.documentElement) document.write("<script src='${path}/resources/js/ace-master/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+    </script>
+    <script src="${path}/resources/js/ace-master/assets/js/bootstrap.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+
+    <!--[if lte IE 8]>
+      <script src="assets/js/excanvas.min.js"></script>
+    <![endif]-->
+    <script src="${path}/resources/js/ace-master/assets/js/jquery-ui.custom.min.js"></script>
+    <script src="${path}/resources/js/ace-master/assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="${path}/resources/js/ace-master/assets/js/jquery.easypiechart.min.js"></script>
+    <script src="${path}/resources/js/ace-master/assets/js/jquery.sparkline.index.min.js"></script>
+    <script src="${path}/resources/js/ace-master/assets/js/jquery.flot.min.js"></script>
+    <script src="${path}/resources/js/ace-master/assets/js/jquery.flot.pie.min.js"></script>
+    <script src="${path}/resources/js/ace-master/assets/js/jquery.flot.resize.min.js"></script>
+
+    <!-- ace scripts -->
+    <script src="${path}/resources/js/ace-master/assets/js/ace-elements.min.js"></script>
+    <script src="${path}/resources/js/ace-master/assets/js/ace.min.js"></script>
+
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+      jQuery(function($) {
+        $('.easy-pie-chart.percentage').each(function(){
+          var $box = $(this).closest('.infobox');
+          var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
+          var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
+          var size = parseInt($(this).data('size')) || 50;
+          $(this).easyPieChart({
+            barColor: barColor,
+            trackColor: trackColor,
+            scaleColor: false,
+            lineCap: 'butt',
+            lineWidth: parseInt(size/10),
+            animate: ace.vars['old_ie'] ? false : 1000,
+            size: size
+          });
+        })
+
+        $('.sparkline').each(function(){
+          var $box = $(this).closest('.infobox');
+          var barColor = !$box.hasClass('infobox-dark') ? $box.css('color') : '#FFF';
+          $(this).sparkline('html',
+                   {
+                    tagValuesAttribute:'data-values',
+                    type: 'bar',
+                    barColor: barColor ,
+                    chartRangeMin:$(this).data('min') || 0
+                   });
         });
-    }
-}
 
-// 几个关闭事件的实现
-function closeTab(menu,type) {
-    var curTabTitle = $(menu).data("tabTitle");
-    var tabs = $("#tabs");
 
-    if(type === "close") {
-        tabs.tabs("close", curTabTitle);
-    } else {
-		var allTabs = tabs.tabs("tabs");
-		var closeTabsTitle = [];
+        //flot chart resize plugin, somehow manipulates default browser resize event to optimize it!
+        //but sometimes it brings up errors with normal resize event handlers
+        $.resize.throttleWindow = false;
 
-		$.each(allTabs, function() {
-			var opt = $(this).panel("options");
-			if (opt.closable && type === "Other") {
-				if (opt.title != curTabTitle) {
-					closeTabsTitle.push(opt.title);
-				} else {
-					tabs.tabs("select", 1);
-				}
-			} else if (opt.closable && type === "All") {
-				closeTabsTitle.push(opt.title);
-			}
-		});
-
-		for (var i = 0; i < closeTabsTitle.length; i++) {
-			tabs.tabs("close", closeTabsTitle[i]);
-		}
-	}
-}
-
-// 菜单项鼠标Hover
-function hoverMenuItem() {
-    $(".easyui-accordion").find('a').hover(function() {
-        $(this).parent().addClass("hover");
-    }, function() {
-        $(this).parent().removeClass("hover");
-    });
-}
-
-// 添加
-function addNav(data) {
-    $.each(data, function(i, sm) {
-        var menulist = "";
-        menulist += '<ul class="navlist">';
-        $.each(sm.children, function(j, o) {
-            menulist += '<li><div ><a ref="' + o.id + '" href="javascript:void(0)" onclick="openTab(\''
-                + o.text + '\',\'' + o.url + '\')"><span class="icon ' + o.icon + '" >&nbsp;</span><span class="nav">' + o.text + '</span></a></div>';
-            if (o.children && o.children.length > 0) {
-                //li.find('div').addClass('icon-arrow');
-                menulist += '<ul class="third_ul">';
-                $.each(o.children, function(k, p) {
-                    menulist += '<li><div><a ref="' + p.id + '" href="javascript:void(0)" onclick="showcontent(\''
-                + p.url + '\')"><span class="icon ' + p.icon + '" >&nbsp;</span><span class="nav">' + p.text + '</span></a></div></li>'
-                });
-                menulist += '</ul>';
+        var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
+        var data = [
+        { label: "social networks",  data: 38.7, color: "#68BC31"},
+        { label: "search engines",  data: 24.5, color: "#2091CF"},
+        { label: "ad campaigns",  data: 8.2, color: "#AF4E96"},
+        { label: "direct traffic",  data: 18.6, color: "#DA5430"},
+        { label: "other",  data: 10, color: "#FEE074"}
+        ]
+        function drawPieChart(placeholder, data, position) {
+          $.plot(placeholder, data, {
+          series: {
+            pie: {
+              show: true,
+              tilt:0.8,
+              highlight: {
+                opacity: 0.25
+              },
+              stroke: {
+                color: '#fff',
+                width: 2
+              },
+              startAngle: 2
             }
-            menulist += '</li>';
-        });
-        menulist += '</ul>';
+          },
+          legend: {
+            show: true,
+            position: position || "ne",
+            labelBoxBorderColor: null,
+            margin:[-30,15]
+          }
+          ,
+          grid: {
+            hoverable: true,
+            clickable: true
+          }
+         })
+       }
+       drawPieChart(placeholder, data);
 
-        $('#wnav').accordion('add', {
-            title : sm.text,
-            content : menulist,
-            border : false,
-            iconCls : 'icon ' + sm.icon
-        });
+       /**
+       we saved the drawing function and the data to redraw with different position later when switching to RTL mode dynamically
+       so that's not needed actually.
+       */
+       placeholder.data('chart', data);
+       placeholder.data('draw', drawPieChart);
 
-        if(i == 0)
-            selectedPanelname = sm.text;
-    });
-    $('#wnav').accordion('select', selectedPanelname);
 
-    var pp = $('#wnav').accordion('panels');
-    var t = pp[0].panel('options').title;
-    $('#wnav').accordion('select', t);
-}
+        //pie chart tooltip example
+        var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
+        var previousPoint = null;
 
-// 清空
-function clearNav() {
-    var pp = $('#wnav').accordion('panels');
-    $.each(pp, function(i, n) {
-        if (n) {
-            var t = n.panel('options').title;
-            $('#wnav').accordion('remove', t);
+        placeholder.on('plothover', function (event, pos, item) {
+        if(item) {
+          if (previousPoint != item.seriesIndex) {
+            previousPoint = item.seriesIndex;
+            var tip = item.series['label'] + " : " + item.series['percent']+'%';
+            $tooltip.show().children(0).text(tip);
+          }
+          $tooltip.css({top:pos.pageY + 10, left:pos.pageX + 10});
+        } else {
+          $tooltip.hide();
+          previousPoint = null;
         }
-    });
-    pp = $('#wnav').accordion('getSelected');
-    if (pp) {
-        var title = pp.panel('options').title;
-        $('#wnav').accordion('remove', title);
-    }
-}
 
-function addTab(subtitle, url, icon) {
-    if (!$('#tabs').tabs('exists', subtitle)) {
-        $('#tabs').tabs('add', {
-            title : subtitle,
-            content : createFrame(url),
-            closable : true,
-            icon : icon
+       });
+
+        /////////////////////////////////////
+        $(document).one('ajaxloadstart.page', function(e) {
+          $tooltip.remove();
         });
-    } else {
-        $('#tabs').tabs('select', subtitle);
-        $('#mm-tabupdate').click();
-    }
-    tabClose();
-}
 
-</script>
 
-<style>
-.footer { width: 100%; text-align: center; line-height: 35px; }
-.top-bg { background-color: #d8e4fe; height: 80px; }
-</style>
 
-</head>
-<body class="easyui-layout">
-    <div region="north" border="true" split="true" style="overflow: hidden;">
-        <div class="top-bg"><a style="position:relative;top:20px;right:20px;float:right;font: 12px/18px Verdana, Geneva, sans-serif;" href="logout">退出系统</a></div>
-    </div>
 
-    <div region="south" border="true" split="true" style="overflow: hidden; height: 40px;">
-        <div class="footer">版权所有：<a href=""></a></div>
-    </div>
+        var d1 = [];
+        for (var i = 0; i < Math.PI * 2; i += 0.5) {
+          d1.push([i, Math.sin(i)]);
+        }
 
-    <div region="west" split="true" title="导航菜单" style="width: 200px;">
-        <div id='wnav' class="easyui-accordion">
-            <!--  导航内容 -->
-        </div>
-    </div>
+        var d2 = [];
+        for (var i = 0; i < Math.PI * 2; i += 0.5) {
+          d2.push([i, Math.cos(i)]);
+        }
 
-    <div id="content" region="center" style="overflow: hidden;">
-        <div class="easyui-tabs" fit="true" border="false" id="tabs">
-          <div title="首页"></div>
-        </div>
-    </div>
+        var d3 = [];
+        for (var i = 0; i < Math.PI * 2; i += 0.2) {
+          d3.push([i, Math.tan(i)]);
+        }
 
-    <div id="tabsMenu" class="easyui-menu" style="width:120px;">
-        <div name="close">关闭</div>
-        <div name="Other">关闭其他</div>
-        <div name="All">关闭所有</div>
-    </div>
 
-</body>
+        var sales_charts = $('#sales-charts').css({'width':'100%' , 'height':'220px'});
+        $.plot("#sales-charts", [
+          { label: "Domains", data: d1 },
+          { label: "Hosting", data: d2 },
+          { label: "Services", data: d3 }
+        ], {
+          hoverable: true,
+          shadowSize: 0,
+          series: {
+            lines: { show: true },
+            points: { show: true }
+          },
+          xaxis: {
+            tickLength: 0
+          },
+          yaxis: {
+            ticks: 10,
+            min: -2,
+            max: 2,
+            tickDecimals: 3
+          },
+          grid: {
+            backgroundColor: { colors: [ "#fff", "#fff" ] },
+            borderWidth: 1,
+            borderColor:'#555'
+          }
+        });
+
+
+        $('#recent-box [data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+        function tooltip_placement(context, source) {
+          var $source = $(source);
+          var $parent = $source.closest('.tab-content')
+          var off1 = $parent.offset();
+          var w1 = $parent.width();
+
+          var off2 = $source.offset();
+          //var w2 = $source.width();
+
+          if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+          return 'left';
+        }
+
+
+        $('.dialogs,.comments').ace_scroll({
+          size: 300
+          });
+
+
+        //Android's default browser somehow is confused when tapping on label which will lead to dragging the task
+        //so disable dragging when clicking on label
+        var agent = navigator.userAgent.toLowerCase();
+        if(ace.vars['touch'] && ace.vars['android']) {
+          $('#tasks').on('touchstart', function(e){
+          var li = $(e.target).closest('#tasks li');
+          if(li.length == 0)return;
+          var label = li.find('label.inline').get(0);
+          if(label == e.target || $.contains(label, e.target)) e.stopImmediatePropagation() ;
+          });
+        }
+
+        $('#tasks').sortable({
+          opacity:0.8,
+          revert:true,
+          forceHelperSize:true,
+          placeholder: 'draggable-placeholder',
+          forcePlaceholderSize:true,
+          tolerance:'pointer',
+          stop: function( event, ui ) {
+            //just for Chrome!!!! so that dropdowns on items don't appear below other items after being moved
+            $(ui.item).css('z-index', 'auto');
+          }
+          }
+        );
+        $('#tasks').disableSelection();
+        $('#tasks input:checkbox').removeAttr('checked').on('click', function(){
+          if(this.checked) $(this).closest('li').addClass('selected');
+          else $(this).closest('li').removeClass('selected');
+        });
+
+
+        //show the dropdowns on top or bottom depending on window height and menu position
+        $('#task-tab .dropdown-hover').on('mouseenter', function(e) {
+          var offset = $(this).offset();
+
+          var $w = $(window)
+          if (offset.top > $w.scrollTop() + $w.innerHeight() - 100)
+            $(this).addClass('dropup');
+          else $(this).removeClass('dropup');
+        });
+
+      })
+    </script>
+  </body>
 </html>

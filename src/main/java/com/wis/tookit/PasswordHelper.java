@@ -44,4 +44,13 @@ public class PasswordHelper {
                 hashIterations).toHex();
     }
     
+    public static void main(String[] args) {
+        String pw = new SimpleHash(
+                "md5",
+                "admin315",
+                ByteSource.Util.bytes("wd" + "e7020fb0e2ee96e04cc7779205c410dc"),
+                2).toHex();
+        System.out.println(pw);
+    }
+    
 }
