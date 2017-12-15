@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
-    <title>首页 - 管理系统</title>
+    <title>首页 - 管理系统 ${wd-test}</title>
 
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -95,10 +95,33 @@
     <!-- ace scripts -->
     <script src="${path}/resources/js/ace-master/assets/js/ace-elements.min.js"></script>
     <script src="${path}/resources/js/ace-master/assets/js/ace.min.js"></script>
+    
+    <script src="${path}/resources/js/utils.js"></script>
 
     <!-- inline scripts related to this page -->
     <script type="text/javascript">
+      var treeMenuHtml = 'blank';
+      function initLeftMenu() {
+        var leftMenuData = {};
+        $.post("${path}/admin/sysMenu/alltree", {}, function(result) {
+          if (isNotBlank(result)) {
+            leftMenuData = JSON.parse(result); //由JSON字符串转换为JSON对象
+            treeMenuHtml = new treeMenu(leftMenuData).init(0);
+            alert(treeMenuHtml);
+          }
+        });
+        $('#menu-test').append('<li class="">'
+                + '<a href="blank.html">'
+                  + '<i class="menu-icon fa fa-caret-right"></i>'
+                  + 'Blank Page'
+                + '</a>'
+                + '<b class="arrow"></b>'
+              + '</li>');
+        // alert($('#menu-test'));
+      }
+      
       jQuery(function($) {
+        initLeftMenu();
         $('.easy-pie-chart.percentage').each(function(){
           var $box = $(this).closest('.infobox');
           var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');

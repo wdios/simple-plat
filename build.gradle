@@ -175,5 +175,5 @@ dependencies {
 gretty {
     contextPath ="/${project.name}"
     servletContainer = 'jetty8'
-    scanInterval = 0
+    scanInterval = 1
 }

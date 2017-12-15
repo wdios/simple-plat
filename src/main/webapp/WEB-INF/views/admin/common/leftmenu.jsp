@@ -468,7 +468,7 @@
 
             <b class="arrow"></b>
 
-            <ul class="submenu">
+            <ul id="menu-test" class="submenu">
               <li class="">
                 <a href="faq.html">
                   <i class="menu-icon fa fa-caret-right"></i>
