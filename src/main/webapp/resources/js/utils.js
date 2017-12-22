@@ -68,23 +68,94 @@ treeMenu.prototype = {
   },
   group:function() {
     for (var i = 0; i < this.tree.length; i++) {
-      if (this.groups[this.tree[i].parentId]) {
-        this.groups[this.tree[i].parentId].push(this.tree[i]);
+      if (this.groups[this.tree[i].parentid]) {
+        this.groups[this.tree[i].parentid].push(this.tree[i]);
       } else {
-        this.groups[this.tree[i].parentId]=[];
-        this.groups[this.tree[i].parentId].push(this.tree[i]);
+        this.groups[this.tree[i].parentid]=[];
+        this.groups[this.tree[i].parentid].push(this.tree[i]);
       }
     }
   },
   getDom:function(a) {
     if (!a) { return '' }
-    var html = '\n<ul >\n';
+    var html = '\n<li class="">\n';
     for (var i = 0; i < a.length; i++) {
-      html += '<li><a href="#">' + a[i].menuname + '</a>';
-      html += this.getDom(this.groups[a[i].id]);
-      html += '</li>\n';
+      if (a[i].leaf) {
+        html += getMenuHtml(a[i].icon, a[i].menuname, false, a[i].url);
+      } else {
+        html += getMenuHtml(a[i].icon, a[i].menuname, true, '');
+        html += '<ul class="submenu">';
+        html += this.getDom(this.groups[a[i].menuid]);
+        html += '</ul>';
+        html += '</li>';
+      }
     };
-    html += '</ul>\n';
+    html += '</li>\n';
     return html;
   }
 };
+
+function getMenuHtml(iconName, menuName, havChildren, hrefStr) {
+  if (havChildren) {
+    return '<a href="#" class="dropdown-toggle">'
+              + '<i class="menu-icon fa fa-' + iconName + '"></i>'
+              + '<span class="menu-text">'
+                + menuName
+              + '</span>'
+              + '<b class="arrow fa fa-angle-down"></b>'
+            + '</a>';
+  } else {
+    return '<a href="gallery.html">'
+              + '<i class="menu-icon fa fa-picture-o"></i>'
+              + '<span class="menu-text"> ' + menuName + ' </span>'
+            + '</a>'
+            + '<b class="arrow"></b>';
+  }
+}
+
+function getArrowHtml() {
+  return '\n<b class="arrow"></b>\n';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

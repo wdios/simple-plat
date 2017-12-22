@@ -21,6 +21,7 @@ public class SysMenu implements Serializable {
     private String url;
     private Long parentid;
     private String des;
+    private Boolean leaf;
     private String defstate;
     private Integer weight;
     private Boolean deleted;
@@ -76,7 +77,15 @@ public class SysMenu implements Serializable {
 		this.des = des;
 	}
 
-	public String getDefstate() {
+	public Boolean getLeaf() {
+        return leaf;
+    }
+
+    public void setLeaf(Boolean leaf) {
+        this.leaf = leaf;
+    }
+
+    public String getDefstate() {
 		return defstate;
 	}
 

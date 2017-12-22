@@ -103,7 +103,7 @@
       var treeMenuHtml = 'blank';
       function initLeftMenu() {
         var leftMenuData = {};
-        $.post("${path}/admin/sysMenu/alltree", {}, function(result) {
+        $.post("${path}/admin/sysMenu/all", {}, function(result) {
           if (isNotBlank(result)) {
             leftMenuData = JSON.parse(result); //由JSON字符串转换为JSON对象
             treeMenuHtml = new treeMenu(leftMenuData).init(0);
