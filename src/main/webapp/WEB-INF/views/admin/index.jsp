@@ -6,6 +6,10 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="${path}/resources/img/favicon.ico">
+    <link rel="Bookmark" href="${path}/resources/img/favicon.ico">
     <title>首页 - 管理系统 ${wd-test}</title>
 
     <meta name="description" content="" />
@@ -107,16 +111,10 @@
           if (isNotBlank(result)) {
             leftMenuData = JSON.parse(result); //由JSON字符串转换为JSON对象
             treeMenuHtml = new treeMenu(leftMenuData).init(0);
-            alert(treeMenuHtml);
+            $('#left-menu').append(treeMenuHtml);
+            // alert(treeMenuHtml);
           }
         });
-        $('#menu-test').append('<li class="">'
-                + '<a href="blank.html">'
-                  + '<i class="menu-icon fa fa-caret-right"></i>'
-                  + 'Blank Page'
-                + '</a>'
-                + '<b class="arrow"></b>'
-              + '</li>');
         // alert($('#menu-test'));
       }
       

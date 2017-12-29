@@ -78,19 +78,23 @@ treeMenu.prototype = {
   },
   getDom:function(a) {
     if (!a) { return '' }
-    var html = '\n<li class="">\n';
+    var html = '';
     for (var i = 0; i < a.length; i++) {
       if (a[i].leaf) {
+        html += '\n<li class="">\n';
         html += getMenuHtml(a[i].icon, a[i].menuname, false, a[i].url);
+        html += '\n</li>\n';
       } else {
+        html += '\n<li class="">\n';
         html += getMenuHtml(a[i].icon, a[i].menuname, true, '');
         html += '<ul class="submenu">';
+        html += '\n<li class="">\n';
         html += this.getDom(this.groups[a[i].menuid]);
+        html += '\n</li>\n';
         html += '</ul>';
-        html += '</li>';
+        html += '\n</li>\n';
       }
     };
-    html += '</li>\n';
     return html;
   }
 };
@@ -105,9 +109,9 @@ function getMenuHtml(iconName, menuName, havChildren, hrefStr) {
               + '<b class="arrow fa fa-angle-down"></b>'
             + '</a>';
   } else {
-    return '<a href="gallery.html">'
-              + '<i class="menu-icon fa fa-picture-o"></i>'
-              + '<span class="menu-text"> ' + menuName + ' </span>'
+    return '<a href="' + hrefStr + '">'
+              + '<i class="menu-icon fa fa-caret-right"></i>'
+              + menuName
             + '</a>'
             + '<b class="arrow"></b>';
   }
