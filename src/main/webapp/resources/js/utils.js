@@ -81,11 +81,11 @@ treeMenu.prototype = {
     var html = '';
     for (var i = 0; i < a.length; i++) {
       if (a[i].leaf) {
-        html += '\n<li class="">\n';
+        html += '\n<li id="menuid_' + a[i].menuid + '" subids="' + a[i].subids + '" parentid="' + a[i].parentid + '" class="">\n';
         html += getMenuHtml(a[i].icon, a[i].menuname, false, a[i].url);
         html += '\n</li>\n';
       } else {
-        html += '\n<li class="">\n';
+        html += '\n<li id="menuid_' + a[i].menuid + '" subids="' + a[i].subids + '" parentid="' + a[i].parentid + '" class="">\n';
         html += getMenuHtml(a[i].icon, a[i].menuname, true, '');
         html += '<ul class="submenu">';
         html += '\n<li class="">\n';
@@ -117,9 +117,6 @@ function getMenuHtml(iconName, menuName, havChildren, hrefStr) {
   }
 }
 
-function getArrowHtml() {
-  return '\n<b class="arrow"></b>\n';
-}
 
 
 

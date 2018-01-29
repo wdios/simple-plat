@@ -20,6 +20,7 @@ public class SysMenu implements Serializable {
     private String icon;
     private String url;
     private Long parentid;
+    private String subids;
     private String des;
     private Boolean leaf;
     private String defstate;
@@ -69,7 +70,15 @@ public class SysMenu implements Serializable {
 		this.parentid = parentid;
 	}
 
-	public String getDes() {
+	public String getSubids() {
+        return subids;
+    }
+
+    public void setSubids(String subids) {
+        this.subids = subids;
+    }
+
+    public String getDes() {
 		return des;
 	}
 

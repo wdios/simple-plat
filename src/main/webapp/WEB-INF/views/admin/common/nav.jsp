@@ -34,7 +34,7 @@
               <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
                 <li class="dropdown-header">
                   <i class="ace-icon fa fa-check"></i>
-                  4 Tasks to complete
+                  4 任务完成度
                 </li>
 
                 <li class="dropdown-content">
@@ -42,7 +42,7 @@
                     <li>
                       <a href="#">
                         <div class="clearfix">
-                          <span class="pull-left">Software Update</span>
+                          <span class="pull-left">软件升级</span>
                           <span class="pull-right">65%</span>
                         </div>
 
@@ -55,7 +55,7 @@
                     <li>
                       <a href="#">
                         <div class="clearfix">
-                          <span class="pull-left">Hardware Upgrade</span>
+                          <span class="pull-left">硬件升级</span>
                           <span class="pull-right">35%</span>
                         </div>
 
@@ -68,7 +68,7 @@
                     <li>
                       <a href="#">
                         <div class="clearfix">
-                          <span class="pull-left">Unit Testing</span>
+                          <span class="pull-left">单元测试</span>
                           <span class="pull-right">15%</span>
                         </div>
 
@@ -81,7 +81,7 @@
                     <li>
                       <a href="#">
                         <div class="clearfix">
-                          <span class="pull-left">Bug Fixes</span>
+                          <span class="pull-left">问题修复</span>
                           <span class="pull-right">90%</span>
                         </div>
 
@@ -95,7 +95,7 @@
 
                 <li class="dropdown-footer">
                   <a href="#">
-                    See tasks with details
+                    更多
                     <i class="ace-icon fa fa-arrow-right"></i>
                   </a>
                 </li>
@@ -111,7 +111,7 @@
               <ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
                 <li class="dropdown-header">
                   <i class="ace-icon fa fa-exclamation-triangle"></i>
-                  8 Notifications
+                  8 通知
                 </li>
 
                 <li class="dropdown-content">
@@ -121,7 +121,7 @@
                         <div class="clearfix">
                           <span class="pull-left">
                             <i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
-                            New Comments
+                            新评论
                           </span>
                           <span class="pull-right badge badge-info">+12</span>
                         </div>
@@ -140,7 +140,7 @@
                         <div class="clearfix">
                           <span class="pull-left">
                             <i class="btn btn-xs no-hover btn-success fa fa-shopping-cart"></i>
-                            New Orders
+                            新订单
                           </span>
                           <span class="pull-right badge badge-success">+8</span>
                         </div>
@@ -152,7 +152,7 @@
                         <div class="clearfix">
                           <span class="pull-left">
                             <i class="btn btn-xs no-hover btn-info fa fa-twitter"></i>
-                            Followers
+                            关注
                           </span>
                           <span class="pull-right badge badge-info">+11</span>
                         </div>
@@ -163,7 +163,7 @@
 
                 <li class="dropdown-footer">
                   <a href="#">
-                    See all notifications
+                    更多
                     <i class="ace-icon fa fa-arrow-right"></i>
                   </a>
                 </li>
@@ -179,14 +179,14 @@
               <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
                 <li class="dropdown-header">
                   <i class="ace-icon fa fa-envelope-o"></i>
-                  5 Messages
+                  5 条消息
                 </li>
 
                 <li class="dropdown-content">
                   <ul class="dropdown-menu dropdown-navbar">
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+                        <img src="${path}/resources/assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
                         <span class="msg-body">
                           <span class="msg-title">
                             <span class="blue">Alex:</span>
@@ -195,7 +195,7 @@
 
                           <span class="msg-time">
                             <i class="ace-icon fa fa-clock-o"></i>
-                            <span>a moment ago</span>
+                            <span>刚刚</span>
                           </span>
                         </span>
                       </a>
@@ -203,7 +203,7 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="assets/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+                        <img src="${path}/resources/assets/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
                         <span class="msg-body">
                           <span class="msg-title">
                             <span class="blue">Susan:</span>
@@ -212,7 +212,7 @@
 
                           <span class="msg-time">
                             <i class="ace-icon fa fa-clock-o"></i>
-                            <span>20 minutes ago</span>
+                            <span>20 分钟前</span>
                           </span>
                         </span>
                       </a>
@@ -220,7 +220,7 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+                        <img src="${path}/resources/assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
                         <span class="msg-body">
                           <span class="msg-title">
                             <span class="blue">Bob:</span>
@@ -237,7 +237,7 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+                        <img src="${path}/resources/assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
                         <span class="msg-body">
                           <span class="msg-title">
                             <span class="blue">Kate:</span>
@@ -254,7 +254,7 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+                        <img src="${path}/resources/assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
                         <span class="msg-body">
                           <span class="msg-title">
                             <span class="blue">Fred:</span>
@@ -282,9 +282,9 @@
 
             <li class="light-blue dropdown-modal">
               <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                <img class="nav-user-photo" src="assets/images/avatars/user.jpg" alt="Jason's Photo" />
+                <img class="nav-user-photo" src="${path}/resources/assets/images/avatars/user.jpg" alt="Jason's Photo" />
                 <span class="user-info">
-                  <small>Welcome,</small>
+                  <small>欢迎,</small>
                   Jason
                 </span>
 
@@ -295,14 +295,14 @@
                 <li>
                   <a href="#">
                     <i class="ace-icon fa fa-cog"></i>
-                    Settings
+                    设置
                   </a>
                 </li>
 
                 <li>
                   <a href="profile.html">
                     <i class="ace-icon fa fa-user"></i>
-                    Profile
+                    简介
                   </a>
                 </li>
 
@@ -311,7 +311,7 @@
                 <li>
                   <a href="#">
                     <i class="ace-icon fa fa-power-off"></i>
-                    Logout
+                    退出
                   </a>
                 </li>
               </ul>

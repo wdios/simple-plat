@@ -155,11 +155,11 @@
 
         var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
         var data = [
-        { label: "social networks",  data: 38.7, color: "#68BC31"},
-        { label: "search engines",  data: 24.5, color: "#2091CF"},
-        { label: "ad campaigns",  data: 8.2, color: "#AF4E96"},
-        { label: "direct traffic",  data: 18.6, color: "#DA5430"},
-        { label: "other",  data: 10, color: "#FEE074"}
+        { label: "社交网络",  data: 38.7, color: "#68BC31"},
+        { label: "搜索引擎",  data: 24.5, color: "#2091CF"},
+        { label: "广告活动",  data: 8.2, color: "#AF4E96"},
+        { label: "直接流量",  data: 18.6, color: "#DA5430"},
+        { label: "其他",  data: 10, color: "#FEE074"}
         ]
         function drawPieChart(placeholder, data, position) {
           $.plot(placeholder, data, {
@@ -245,9 +245,9 @@
 
         var sales_charts = $('#sales-charts').css({'width':'100%' , 'height':'220px'});
         $.plot("#sales-charts", [
-          { label: "Domains", data: d1 },
-          { label: "Hosting", data: d2 },
-          { label: "Services", data: d3 }
+          { label: "原始", data: d1 },
+          { label: "托管", data: d2 },
+          { label: "服务", data: d3 }
         ], {
           hoverable: true,
           shadowSize: 0,

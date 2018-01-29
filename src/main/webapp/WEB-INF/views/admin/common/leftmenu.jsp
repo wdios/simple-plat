@@ -41,7 +41,7 @@
           <li class="active">
             <a href="index.html">
               <i class="menu-icon fa fa-tachometer"></i>
-              <span class="menu-text"> Dashboard </span>
+              <span class="menu-text"> 告示牌 </span>
             </a>
 
             <b class="arrow"></b>
@@ -51,7 +51,7 @@
             <a href="#" class="dropdown-toggle">
               <i class="menu-icon fa fa-desktop"></i>
               <span class="menu-text">
-                UI &amp; Elements
+                UI控件
               </span>
 
               <b class="arrow fa fa-angle-down"></b>
@@ -64,7 +64,7 @@
                 <a href="#" class="dropdown-toggle">
                   <i class="menu-icon fa fa-caret-right"></i>
 
-                  Layouts
+                  布局
                   <b class="arrow fa fa-angle-down"></b>
                 </a>
 
@@ -74,7 +74,7 @@
                   <li class="">
                     <a href="top-menu.html">
                       <i class="menu-icon fa fa-caret-right"></i>
-                      Top Menu
+                      顶部菜单
                     </a>
 
                     <b class="arrow"></b>
