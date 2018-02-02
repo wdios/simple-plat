@@ -32,6 +32,9 @@
     <![endif]-->
     <link rel="stylesheet" href="${path}/resources/js/ace-master/assets/css/ace-skins.min.css" />
     <link rel="stylesheet" href="${path}/resources/js/ace-master/assets/css/ace-rtl.min.css" />
+    
+    <link href="${path}/resources/css/tree.css" rel="stylesheet">
+    <link href="${path}/resources/css/icheck/blue.css" rel="stylesheet">
 
     <!--[if lte IE 9]>
       <link rel="stylesheet" href="${path}/resources/js/ace-master/assets/css/ace-ie.min.css" />
@@ -48,6 +51,12 @@
     <script src="${path}/resources/js/ace-master/assets/js/html5shiv.min.js"></script>
     <script src="${path}/resources/js/ace-master/assets/js/respond.min.js"></script>
     <![endif]-->
+    
+    <style type="text/css">
+    li>ol, li>ul {
+      margin-left: 40px;
+    }
+    </style>
   </head>
 
   <body class="no-skin">
@@ -162,6 +171,10 @@
       <div class="row">
         <div class="col-xs-12">
         
+        <div id="sources-tree" class="tree well">
+          
+        </div>
+        
         </div>
       </div>
     </div>
@@ -208,6 +221,7 @@
     <script src="${path}/resources/js/ace-master/assets/js/ace.min.js"></script>
     
     <script src="${path}/resources/js/utils.js"></script>
+    <script src="${path}/resources/css/icheck/icheck.js"></script>
 
     <!-- inline scripts related to this page -->
     <script type="text/javascript">
@@ -219,7 +233,32 @@
             leftMenuData = JSON.parse(result); //由JSON字符串转换为JSON对象
             treeMenuHtml = new treeMenu(leftMenuData).init(0);
             $('#left-menu').append(treeMenuHtml);
-            // alert(treeMenuHtml);
+            setActive();
+          }
+        });
+        // alert($('#menu-test'));
+      }
+      
+      function setActive() {
+        $("li.active").removeClass("active");
+        //$("#menuid_1 + ul").addClass("nav-show");
+        $("#menuid_1").find("ul:eq(0)").show();
+        $("[menucode='sysResource']").addClass("active");
+      }
+      
+      function initSourcesTree() {
+        var sourcesTreeHtml = 'blank';
+        var sourcesTreeData = {};
+        $.post("${path}/admin/sysMenu/all", {}, function(result) {
+          if (isNotBlank(result)) {
+            sourcesTreeData = JSON.parse(result); //由JSON字符串转换为JSON对象
+            rootNode = {"menuid":0,"menuname":"系统资源","icon":"desktop","url":"","parentid":-1,"subids":"1,2","des":"","leaf":false,"defstate":"","weight":0,"deleted":false};
+            
+            sourcesTreeData.unshift(rootNode);
+            // alert(sourcesTreeData.length);
+            sourcesTreeHtml = '<ul>' +　new sourcesTreeMenu(sourcesTreeData).init(-1) + '</ul>';
+            $('#sources-tree').append(sourcesTreeHtml);
+            initResourcesTree();
           }
         });
         // alert($('#menu-test'));
@@ -227,8 +266,117 @@
       
       jQuery(function($) {
         initLeftMenu();
-        
+        initSourcesTree();
       })
+      
+      function sourcesTreeMenu(a) {
+        this.tree = a||[];
+        this.groups = {};
+      };
+      sourcesTreeMenu.prototype = {
+        init:function(pid) {
+          this.group();
+          return this.getDom(this.groups[pid]);
+        },
+        group:function() {
+          for (var i = 0; i < this.tree.length; i++) {
+            if (this.groups[this.tree[i].parentid]) {
+              this.groups[this.tree[i].parentid].push(this.tree[i]);
+            } else {
+              this.groups[this.tree[i].parentid]=[];
+              this.groups[this.tree[i].parentid].push(this.tree[i]);
+            }
+          }
+        },
+        getDom:function(a) {
+          if (!a) { return '' }
+          var html = '';
+          for (var i = 0; i < a.length; i++) {
+            if (a[i].leaf) {
+              html += '\n<li id="menuid_' + a[i].menuid + '" style="display:none;" subids="' + a[i].subids + '" parentid="' + a[i].parentid + '" class="">\n';
+              html += getSourcesMenuHtml(a[i].icon, a[i].menuname, false, a[i].url);
+              html += '\n</li>\n';
+            } else {
+              //html += getSourcesMenuHtml(a[i].icon, a[i].menuname, true, '');
+              var defStateHtml = '';
+              if (a[i].defstate == 'closed') {
+                defStateHtml = 'display: none;';
+              } else {
+                defStateHtml = 'display: list-item;';
+              }
+              html += '\n<li id="menuid_' + a[i].menuid + '">\n';
+              html += getSourcesMenuHtml(a[i].icon, a[i].menuname, true, '');
+              html += '<ul>';
+              html += this.getDom(this.groups[a[i].menuid]);
+              html += '</ul>';
+              html += '\n</li>\n';
+            }
+          };
+          return html;
+        }
+      };
+
+      function getSourcesMenuHtml(iconName, menuName, havChildren, hrefStr) {
+        if (havChildren) {
+          return '<div class="space-node">&nbsp;</div><input type="checkbox" /> <span><i class="glyphicon glyphicon-folder-open"></i> ' + menuName + '</span>';
+        } else {
+          return '<div class="space-node">&nbsp;</div>所有&nbsp;<input id="1" type="checkbox" /><input id="2" type="checkbox" /> <span><i class="glyphicon glyphicon-leaf"></i> ' + menuName + '</span>';
+        }
+      }
+      
+      function initResourcesTree() {
+        $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+        $('.tree li.parent_li > span').on('click', function(e) {
+          var children = $(this).parent('li.parent_li').find(' > ul > li');
+          if (children.is(":visible")) {
+            children.hide('fast');
+            $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('glyphicon glyphicon-folder-open');
+          } else {
+            children.show('fast');
+            $(this).attr('title', 'Collapse this branch').find(' > i').addClass('glyphicon glyphicon-folder-open').removeClass('icon-plus-sign');
+          }
+          e.stopPropagation();
+        });
+        
+        $('.tree input').iCheck({
+          checkboxClass: 'icheckbox_square-blue',
+          radioClass: 'iradio_square-blue',
+          increaseArea: '20%' // optional
+        });
+        
+        $('.tree input').on('ifChecked', function(event) {
+          var subidsStr = $(this).parent().parent().attr("subids");
+          if (subidsStr.length < 1) {
+            $(this).parent().iCheck('check');
+          } else {
+            $(this).parent().parent().find("li").show();
+            $(this).parent().parent().find("input").iCheck('check');
+            // alert($(this).parent().parent().html());
+            setParent($(this).parent().parent().parent());
+          }
+        });
+        
+        $('.tree input').on('ifUnchecked', function(event) {
+          var subidsStr = $(this).parent().parent().attr("subids");
+          if (subidsStr.length < 1) {
+            $(this).parent().iCheck('uncheck');
+          } else {
+            $(this).parent().parent().find("input").iCheck('uncheck');
+          }
+        });
+      }
+      
+      function setParent(pObj) {
+        if (pObj[0].tagName == 'UL') {
+          // pObj.siblings(":eq(1)").addClass("halfcheck");
+          setParent(pObj.parent().parent());
+        }
+      }
+      
+      var treeDict = { "key1": "val1", "key2": "val2" };
+      $.each(treeDict, function(index, key, val) {
+        // alert(index);
+      });
     </script>
   </body>
 </html>

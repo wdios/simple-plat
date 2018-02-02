@@ -16,6 +16,7 @@ public class SysMenu implements Serializable {
     private static final long serialVersionUID = -1L;
 
     private Long menuid;
+    private String menucode;
     private String menuname;
     private String icon;
     private String url;
@@ -38,7 +39,15 @@ public class SysMenu implements Serializable {
 		this.menuid = menuid;
 	}
 
-	public String getMenuname() {
+	public String getMenucode() {
+        return menucode;
+    }
+
+    public void setMenucode(String menucode) {
+        this.menucode = menucode;
+    }
+
+    public String getMenuname() {
 		return menuname;
 	}
 

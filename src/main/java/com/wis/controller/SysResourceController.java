@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/admin/sysResources/*")
-public class SysResourcesController {
+@RequestMapping("/admin/sysResource/*")
+public class SysResourceController {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
 	@RequestMapping(value = "/view")
 	public ModelAndView viewSysMenuList(ServletRequest request,ServletResponse response){
-		ModelAndView mav = new ModelAndView("admin/sys_resources");
+		ModelAndView mav = new ModelAndView("admin/sys_resource");
 		return mav;
 	}
 	
